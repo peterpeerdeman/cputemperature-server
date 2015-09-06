@@ -21,7 +21,7 @@ def temperature():
 @app.route("/temperatures")
 def temperatures():
     data = []
-    for value in table.find(_limit=100, order_by='-id'):
+    for value in table.find(_limit=30, order_by='-id'):
         data.append(value)
     return json.dumps(data)
 
