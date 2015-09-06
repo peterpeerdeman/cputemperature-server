@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from subprocess import check_output
 import json
 import dataset
@@ -12,7 +12,7 @@ table = db['temperaturevalues']
 
 @app.route("/")
 def hello():
-    return "Temperature server"
+    return render_template('temperatures.html')
 
 @app.route("/currenttemperature")
 def temperature():

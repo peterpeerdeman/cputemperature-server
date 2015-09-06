@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block body %}
+    <h2>temperatures</h2>
+    <canvas id="myChart" width="400" height="400"></canvas>
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
+    <script type='text/javascript' src='https://code.jquery.com/jquery-2.1.4.min.js'></script>
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.10.1/lodash.min.js'></script>
+    <script>
+ctx = document.getElementById("myChart").getContext("2d");
+
+var options = {};
+
+function refresh() {
+    $.get('/temperatures', function(result) {
+        var labels = _.pluck(result,'time');
+        var temperatures = _.pluck(result,'temperature');
+        var data = {
+            labels: labels,
+            datasets: [
+                {
+                    label: "My First dataset",
+                    fillColor: "rgba(220,220,220,0.2)",
+                    strokeColor: "rgba(220,220,220,1)",
+                    pointColor: "rgba(220,220,220,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(220,220,220,1)",
+                    data: temperatures
+                }
+            ]
+        };
+        var myLineChart = new Chart(ctx).Line(data, options);
+    })
+}
+
+refresh();
+setInterval(refresh, 10000);
+
+    </script>
+{% endblock %}
